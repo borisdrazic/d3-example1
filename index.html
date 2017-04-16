@@ -4,7 +4,7 @@
 	<title>Page Title</title>
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<script src="https://d3js.org/d3.v4.min.js"></script>
-	<script src="data/neighborhoods.js"></script>
+	<script src="http://d3js.org/topojson.v1.min.js"></script>
 </head>
 
 <body>
@@ -15,8 +15,28 @@
 	</div>
 
 	<div id="map">
-		<div class="tooltip">
-			<span class="address"></span>
+	</div>
+	<div id="mapTooltip">
+		<div>
+			<span class="title">Service name: </span> <span class="serviceName"></span>
+		</div>
+		<div>
+			<span class="title">Service code: </span> <span class="serviceCode">
+		</div>
+		<div>
+			<span class="title">Address: </span> <span class="address"></span>
+		</div>
+		<div>
+			<span class="title">Status: </span> <span class="status"></span>
+		</div>
+		<div>
+			<span class="title">Status notes: </span> <span class="statusNotes"></span>
+		</div>
+		<div>
+			<span class="title">Requested time: </span> <span class="requestedTime"></span>
+		</div>
+		<div>
+			<span class="title">Expected time: </span> <span class="expectedTime"></span>
 		</div>
 	</div>
 

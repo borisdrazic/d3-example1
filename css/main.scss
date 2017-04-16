@@ -38,6 +38,7 @@ h1 {
 	.legend {
 		rect {
 			stroke-width: 2;
+			transition: fill 1s;
 		}
 
 		rect.disabled {
@@ -104,25 +105,52 @@ h1 {
 		}
 	}
 
-  	.tooltip {
-  		position: absolute;
-		display: block;
-		width: 300px;
+	.neighbourhood {
+		fill: #ccc;
+		stroke: #000;
+		stroke-width: .5px;
+		stroke-linejoin: round;
 	}
 
-	.map-circle.pulse {
-		.first-circle{
-			transform: scale(0.5);
-			transform-origin: center center;
-			animation: pulse-me 1s linear infinite;
+	.map-circle {
+		stroke: white;
+		stroke-width: 0.5;
+		&.pulse {
+			stroke-width: 0 !important;
+			.first-circle{
+				transform: scale(0.5);
+				transform-origin: center center;
+				animation: pulse-me 1s linear infinite;
+			}
+			.second-circle{
+				@extend .first-circle;
+				animation-delay: 0.33s;
+			}
+			.third-circle{
+				@extend .first-circle;
+				animation-delay: 0.33s;
+			}
 		}
-		.second-circle{
-			@extend .first-circle;
-			animation-delay: 0.33s;
-		}
-		.third-circle{
-			@extend .first-circle;
-			animation-delay: 0.33s;
-		}
+	}
+}
+
+#mapTooltip {
+	opacity: 0;
+	transition: opacity 0.5s;
+	width: 800px;
+	border-width: 4px;
+	border-style: solid;
+	padding: 10px;
+	
+	&.show {
+		opacity: 1;
+	}
+
+	div {
+		margin: 10px;
+	}
+
+	.title {
+		font-weight: bold;
 	}
 }

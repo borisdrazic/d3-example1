@@ -1,10 +1,16 @@
 var MapChart = (function(DataService) {
 	"use strict";
+	
+	d3.selection.prototype.moveToFront = function() {  
+      return this.each(function(){
+        this.parentNode.appendChild(this);
+      });
+    };
 
 	var animationDuration = 1000,
 		mapWidth = 650,
 		mapHeight = 430,
-		mapTooltip = d3.select("#map .tooltip"),
+		mapTooltip = d3.select("#mapTooltip"),
 		albersProjection = d3.geoAlbers()
 			.scale(90000)
 			.rotate([71.057, 0])
@@ -19,21 +25,31 @@ var MapChart = (function(DataService) {
 			.y(function(d, i) {
 				return albersProjection([d.long, d.lat])[1];
 			})
-			.extent([[0, 0], [mapWidth, mapHeight]]);
+			.extent([[0, 0], [mapWidth, mapHeight]]),
+		color = d3.scaleOrdinal(['#b3e2cd','#fdcdac','#cbd5e8','#f4cae4','#e6f5c9','#fff2ae','#f1e2cc','#cccccc']);
 
 	function create(selector) {
+		var city = DataService.getTorontoTopoJson(),
+		 	neighbourhoods = topojson.feature(city, city.objects.toronto).features,
+  			neighbors = topojson.neighbors(city.objects.toronto.geometries);
+
 		d3.select(selector)
 			.append("svg")
 			.attr("width", mapWidth)
 			.attr("height", mapHeight)
 			.append("g")
-				.selectAll("path")	
-				.data(neighborhoods_json.features)
-				.enter()
-				.append("path")
-				.attr("fill", "#ccc")
-				.attr("d", geoPath);
+			.selectAll(".neighbourhood")
+      			.data(neighbourhoods)
+    			.enter()
+    				.insert("path", ".neighbourhood")
+      				.attr("class", "neighbourhood")
+      				.attr("d", geoPath)
+      				.style("fill", function(d, i) { 
+        				return color(d.color = d3.max(neighbors[i], function(n) { 
+          					return neighbourhoods[n].color; 
+        				}) + 1 | 0); 
 
+      				});
 		d3.select("#map svg")
 			.append("g")
 			.classed("points", true);
@@ -68,6 +84,7 @@ var MapChart = (function(DataService) {
 		point.exit()
 			.transition(t)
 			.style("fill-opacity", 0)
+			.style("stroke-width", 0)
 			.remove();
 		polygon.exit()
 			.remove();
@@ -90,8 +107,10 @@ var MapChart = (function(DataService) {
 				return "translate(" + albersProjection([d.long, d.lat]) + ")";
 			})
 			.style("fill-opacity", 0)
+			.style("stroke-width", 0)
 			.transition(t)
-				.style("fill-opacity", 1);
+				.style("fill-opacity", 1)
+				.style("stroke-width", 0.5);
 
 		pointG.append("circle")
 			.classed("circle", true)
@@ -134,13 +153,26 @@ var MapChart = (function(DataService) {
 	  		})
 	  		.on("mouseover", function(d, i) {
 	  			d3.select("#service_request_id_" + d.data.service_request_id)
-	  				.classed("pulse", true);
+	  				.classed("pulse", true)
+	  				.moveToFront();
+	  			mapTooltip.select(".serviceName").html(d.data.service_name);
+	  			mapTooltip.select(".serviceCode").html(d.data.service_code);
 				mapTooltip.select(".address").html(d.data.address);
+				mapTooltip.select(".status").html(d.data.status);
+				mapTooltip.select(".statusNotes").html(d.data.status_notes);
+				mapTooltip.select(".requestedTime").html(d.data.requested_datetime);
+				mapTooltip.select(".expectedTime").html(d.data.expected_datetime);
+				mapTooltip.transition()
+					.duration(animationDuration / 2)
+					.style("border-color", DataService.colorMap[d.data.service_name])
+					.style("background-color", d3.hsl(DataService.colorMap[d.data.service_name]).brighter(1.3));
+				mapTooltip.classed("show", true);
+
 			})
 			.on("mouseleave", function(d, i) {
 				d3.select("#service_request_id_" + d.data.service_request_id)
 	  				.classed("pulse", false);
-				mapTooltip.select(".address").html("");
+				mapTooltip.classed("show", false);
 			});
 	}
 

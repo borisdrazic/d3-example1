@@ -3,6 +3,7 @@ var DataService = (function() {
 
 	var inputData,
 		pieData,
+		torontoTopoJson,
 		enabledCategories = {
 			"Road - Pot hole" : true,
 			"Graffiti" : true,
@@ -11,11 +12,11 @@ var DataService = (function() {
 			"Road - Graffiti Complaint" : true
 		},
 		colorMap = {
-			"Road - Pot hole" : "rgb(31, 119, 180)",
-			"Graffiti" : "rgb(255, 127, 14)",
-			"Bridge - Graffiti Complaint" : "rgb(44, 160, 44)",
-			"Sidewalk - Graffiti Complaint" : "rgb(214, 39, 40)",
-			"Road - Graffiti Complaint" : "rgb(148, 103, 189)"
+			"Road - Pot hole" : "#377eb8",
+			"Graffiti" : "#984ea3",
+			"Bridge - Graffiti Complaint" : "#e41a1c",
+			"Sidewalk - Graffiti Complaint" : "#4daf4a",
+			"Road - Graffiti Complaint" : "#ff7f00"
 		};
 
 	function processDataForPieChart(serviceRequestData) {
@@ -48,12 +49,19 @@ var DataService = (function() {
 		d3.json("data/data.json", function(error, input) {
 			inputData = input;
 			pieData = processDataForPieChart(inputData.service_requests);
-			callback();
+			d3.json("data/toronto_topo.json", function(error, toronto) {
+			 	torontoTopoJson = toronto;
+				callback();
+			});
 		});
 	}
 
 	function getPieData() {
 		return pieData;
+	}
+
+	function getTorontoTopoJson() {
+		return torontoTopoJson;
 	}
 
 	function getInputData() {
@@ -65,6 +73,7 @@ var DataService = (function() {
 		colorMap : colorMap,
 		loadData : loadData,
 		getPieData : getPieData,
+		getTorontoTopoJson : getTorontoTopoJson,
 		getInputData : getInputData
 	};
 })();
