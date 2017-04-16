@@ -50,7 +50,7 @@ h1 {
   margin: 0 auto;
   height: 430px;
   width: 650px; }
-@keyframes pulse-me {
+@keyframes point-pulse {
   0% {
     transform: scale(0.5);
     opacity: 0; }
@@ -68,8 +68,22 @@ h1 {
   #map .neighbourhood {
     fill: #ccc;
     stroke: #000;
-    stroke-width: .5px;
-    stroke-linejoin: round; }
+    stroke-width: 0.5px;
+    stroke-linejoin: round;
+    pointer-events: all; }
+@keyframes neighbourhood-pulse {
+  0% {
+    opacity: 1; }
+  50% {
+    fill: red;
+    stroke-width: 3px;
+    opacity: 0.4; }
+  100% {
+    opacity: 1; } }
+    #map .neighbourhood.hover {
+      animation-name: neighbourhood-pulse;
+      animation-duration: 2s;
+      animation-iteration-count: infinite; }
   #map .map-circle {
     stroke: white;
     stroke-width: 0.5; }
@@ -78,7 +92,7 @@ h1 {
       #map .map-circle.pulse .first-circle, #map .map-circle.pulse .second-circle, #map .map-circle.pulse .third-circle {
         transform: scale(0.5);
         transform-origin: center center;
-        animation: pulse-me 1s linear infinite; }
+        animation: point-pulse 1s linear infinite; }
       #map .map-circle.pulse .second-circle {
         animation-delay: 0.33s; }
       #map .map-circle.pulse .third-circle {
@@ -90,7 +104,9 @@ h1 {
   width: 800px;
   border-width: 4px;
   border-style: solid;
-  padding: 10px; }
+  padding: 10px;
+  fill: #fff;
+  border-color: #fff; }
   #mapTooltip.show {
     opacity: 1; }
   #mapTooltip div {

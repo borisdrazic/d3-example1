@@ -7,6 +7,31 @@ var MapChart = (function(DataService) {
       });
     };
 
+    // NOTE: this will not work with mouselave 
+    // (d3.event.x and d3.event.y are coordinates outside the element on which we want to trigger mouseleave)
+    d3.selection.prototype.passThruEvents = function() {
+
+    	function passThru(d) {
+	        var e = d3.event;
+
+	        var prev = this.style.pointerEvents;
+	        this.style.pointerEvents = 'none';
+
+	        var el = document.elementFromPoint(d3.event.x, d3.event.y);
+
+	        var e2 = document.createEvent('MouseEvent');
+	        e2.initMouseEvent(e.type,e.bubbles,e.cancelable,e.view, e.detail,e.screenX,e.screenY,e.clientX,e.clientY,e.ctrlKey,e.altKey,e.shiftKey,e.metaKey,e.button,e.relatedTarget);
+
+	        el.dispatchEvent(e2);
+
+	        this.style.pointerEvents = prev;
+	    }
+
+    	this.on("mousemove.passThru", passThru);
+	    this.on("mousedown.passThru", passThru);
+	    return this;
+    };
+
 	var animationDuration = 1000,
 		mapWidth = 650,
 		mapHeight = 430,
@@ -47,9 +72,15 @@ var MapChart = (function(DataService) {
       				.style("fill", function(d, i) { 
         				return color(d.color = d3.max(neighbors[i], function(n) { 
           					return neighbourhoods[n].color; 
-        				}) + 1 | 0); 
+        				}) + 1 | 0);
+        			})
+        			.on("mousemove", function(d, i) {
+        				d3.selectAll(".neighbourhood")
+        					.classed("hover", false);
+        				d3.select(this)
+        					.classed("hover", true);
 
-      				});
+        			});
 		d3.select("#map svg")
 			.append("g")
 			.classed("points", true);
@@ -173,7 +204,8 @@ var MapChart = (function(DataService) {
 				d3.select("#service_request_id_" + d.data.service_request_id)
 	  				.classed("pulse", false);
 				mapTooltip.classed("show", false);
-			});
+			})
+			.passThruEvents();
 	}
 
 	return {
