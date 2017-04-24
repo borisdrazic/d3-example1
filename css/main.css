@@ -10,17 +10,17 @@ h1 {
   margin: 0 auto;
   height: 500px;
   width: 500px; }
-  #chart .pie text {
+  #chart .pie text, #chart .pie2 text {
     fill: white;
     pointer-events: none;
     font-size: 18px;
     font-weight: bold;
     text-anchor: middle; }
-  #chart .pie text.disabled {
+  #chart .pie text.disabled, #chart .pie2 text.disabled {
     visibility: hidden;
     opacity: 0;
     transition: visibility 1s, opacity 1s linear; }
-  #chart .pie text.enabled {
+  #chart .pie text.enabled, #chart .pie2 text.enabled {
     visibility: visible;
     opacity: 1;
     transition: visibility 1s, opacity 1s linear; }
@@ -98,7 +98,8 @@ h1 {
       #map .map-circle.pulse .third-circle {
         animation-delay: 0.33s; }
 
-#mapTooltip {
+#mapTooltip, #mapTooltip2 {
+  float: left;
   opacity: 0;
   transition: opacity 0.5s;
   width: 800px;
@@ -107,11 +108,11 @@ h1 {
   padding: 10px;
   fill: #fff;
   border-color: #fff; }
-  #mapTooltip.show {
+  #mapTooltip.show, #mapTooltip2.show {
     opacity: 1; }
-  #mapTooltip div {
+  #mapTooltip div, #mapTooltip2 div {
     margin: 10px; }
-  #mapTooltip .title {
+  #mapTooltip .title, #mapTooltip2 .title {
     font-weight: bold; }
 
 /*# sourceMappingURL=main.css.map */

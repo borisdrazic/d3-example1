@@ -36,6 +36,7 @@ var MapChart = (function(DataService) {
 		mapWidth = 650,
 		mapHeight = 430,
 		mapTooltip = d3.select("#mapTooltip"),
+		mapTooltip2 = d3.select("#mapTooltip2"),
 		albersProjection = d3.geoAlbers()
 			.scale(90000)
 			.rotate([71.057, 0])
@@ -62,6 +63,10 @@ var MapChart = (function(DataService) {
 			.append("svg")
 			.attr("width", mapWidth)
 			.attr("height", mapHeight)
+			.on("mouseleave", function(d, i) {
+				d3.selectAll(".neighbourhood")
+					.classed("hover", false);
+			})
 			.append("g")
 			.selectAll(".neighbourhood")
       			.data(neighbourhoods)
@@ -75,6 +80,28 @@ var MapChart = (function(DataService) {
         				}) + 1 | 0);
         			})
         			.on("mousemove", function(d, i) {
+        				mapTooltip2.classed("show", true);
+        				mapTooltip2.html("");
+        				var div = mapTooltip2.append("div");
+        				div.append("span")
+        					.classed("title", true)
+        					.text("Neighbourhood: ");
+        				div.append("span")
+        					.text(d.properties.name);
+        				DataService.getNeighbourhoodData(d).forEach(function(datum) {
+        					var div = mapTooltip2.append("div");
+        					div.append("span")
+        						.classed("title", true)
+        						.text(datum.key + ": ");
+        					div.append("span")
+        						.text(datum.value);
+        				});
+        				mapTooltip2.transition()
+							.duration(animationDuration / 2)
+							.style("border-color", d3.hsl(color(d.color)).darker(0.8))
+							.style("background-color", color(d.color));
+        				
+        				
         				d3.selectAll(".neighbourhood")
         					.classed("hover", false);
         				d3.select(this)
@@ -203,6 +230,7 @@ var MapChart = (function(DataService) {
 			.on("mouseleave", function(d, i) {
 				d3.select("#service_request_id_" + d.data.service_request_id)
 	  				.classed("pulse", false);
+	  			mapTooltip2.classed("show", false);
 				mapTooltip.classed("show", false);
 			})
 			.passThruEvents();

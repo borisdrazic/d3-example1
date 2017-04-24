@@ -68,12 +68,29 @@ var DataService = (function() {
 		return inputData;
 	}
 
+	function getNeighbourhoodData(neighbourhood) {
+		var neighbourhoodData = inputData.service_requests.filter(function(d, i) {
+     		return d3.polygonContains(neighbourhood.geometry.coordinates[0], [d.long, d.lat]);
+		});
+		return d3.nest()
+			.key(function(d) { 
+				return d.service_name;
+			})
+			.rollup(function(d) {
+				return d3.sum(d, function(g) {
+					return 1;
+				});
+			})
+			.entries(neighbourhoodData);
+	}
+
 	return {
 		enabledCategories : enabledCategories,
 		colorMap : colorMap,
 		loadData : loadData,
 		getPieData : getPieData,
 		getTorontoTopoJson : getTorontoTopoJson,
-		getInputData : getInputData
+		getInputData : getInputData,
+		getNeighbourhoodData : getNeighbourhoodData
 	};
 })();

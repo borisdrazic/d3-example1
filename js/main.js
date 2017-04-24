@@ -4,7 +4,6 @@ var Main = (function(DataService, PieChart, MapChart) {
 	function createCharts() {
 		PieChart.create("#chart");
 		PieChart.update(DataService.getPieData(), DataService.getInputData(), MapChart.update);
-
 		MapChart.create("#map");
 		MapChart.update(DataService.getInputData().service_requests);
 	}

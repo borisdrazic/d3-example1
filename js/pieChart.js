@@ -9,7 +9,7 @@ var PieChart = (function(DataService) {
 				return d.enabled ? d.value : 0;
 			}),
 		arcGenerator = d3.arc() // arc generator setup (for pie chart)
-			.innerRadius(chartWidth / 2 - 100)
+			.innerRadius(chartWidth / 2 - 90)
 			.outerRadius(chartWidth / 2 - 10)
 			.cornerRadius(1)
 			.padAngle(0.008)
@@ -23,6 +23,9 @@ var PieChart = (function(DataService) {
 			.attr("height", chartHeight);
 		chartSvg.append("g")
 			.classed("pie", true)
+			.attr("transform", "translate(" + chartWidth / 2 + ", " + chartHeight / 2 + ")");
+		chartSvg.append("g")
+			.classed("pie2", true)
 			.attr("transform", "translate(" + chartWidth / 2 + ", " + chartHeight / 2 + ")");
 		chartSvg.append("g")
 			.classed("legend", true)
@@ -134,6 +137,7 @@ var PieChart = (function(DataService) {
 				return arcGenerator(interpolate(t));
 				};
 			});
+			
 
 		text.classed("disabled", function(d, i) {
 				return !d.data.enabled || !isAngleLargeEnoughForText(d);
@@ -203,9 +207,7 @@ var PieChart = (function(DataService) {
 			})
 			.classed("enabled", function(d, i) {
 				return d.data.enabled && isAngleLargeEnoughForText(d);
-			});
-
-		
+			});	
 	}
 
 	function update(data, inputData, updateMap) {
