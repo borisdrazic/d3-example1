@@ -36,7 +36,6 @@ var MapChart = (function(DataService) {
 		mapWidth = 650,
 		mapHeight = 430,
 		mapTooltip = d3.select("#mapTooltip"),
-		mapTooltip2 = d3.select("#mapTooltip2"),
 		albersProjection = d3.geoAlbers()
 			.scale(90000)
 			.rotate([71.057, 0])
@@ -52,13 +51,16 @@ var MapChart = (function(DataService) {
 				return albersProjection([d.long, d.lat])[1];
 			})
 			.extent([[0, 0], [mapWidth, mapHeight]]),
-		color = d3.scaleOrdinal(['#b3e2cd','#fdcdac','#cbd5e8','#f4cae4','#e6f5c9','#fff2ae','#f1e2cc','#cccccc']);
+		color = d3.scaleOrdinal(['#b3e2cd','#fdcdac','#cbd5e8','#f4cae4','#e6f5c9','#fff2ae','#f1e2cc','#cccccc']),
+		selectedNeighbourhood,
+		updateBarChartFunction;
 
-	function create(selector) {
+	function create(selector, updateBarChart) {
 		var city = DataService.getTorontoTopoJson(),
 		 	neighbourhoods = topojson.feature(city, city.objects.toronto).features,
   			neighbors = topojson.neighbors(city.objects.toronto.geometries);
 
+  		updateBarChartFunction = updateBarChart;
 		d3.select(selector)
 			.append("svg")
 			.attr("width", mapWidth)
@@ -80,33 +82,20 @@ var MapChart = (function(DataService) {
         				}) + 1 | 0);
         			})
         			.on("mousemove", function(d, i) {
-        				mapTooltip2.classed("show", true);
-        				mapTooltip2.html("");
-        				var div = mapTooltip2.append("div");
-        				div.append("span")
-        					.classed("title", true)
-        					.text("Neighbourhood: ");
-        				div.append("span")
-        					.text(d.properties.name);
-        				DataService.getNeighbourhoodData(d).forEach(function(datum) {
-        					var div = mapTooltip2.append("div");
-        					div.append("span")
-        						.classed("title", true)
-        						.text(datum.key + ": ");
-        					div.append("span")
-        						.text(datum.value);
-        				});
-        				mapTooltip2.transition()
-							.duration(animationDuration / 2)
-							.style("border-color", d3.hsl(color(d.color)).darker(0.8))
-							.style("background-color", color(d.color));
-        				
-        				
-        				d3.selectAll(".neighbourhood")
-        					.classed("hover", false);
-        				d3.select(this)
-        					.classed("hover", true);
+        				if(typeof selectedNeighbourhood === "undefined") {
+        					selectedNeighbourhood = d;
+        				}
+        				if(d.properties.id !== selectedNeighbourhood.properties.id) {
+        					selectedNeighbourhood = d;
+        					updateBarChart(DataService.getNeighbourhoodData(selectedNeighbourhood));
+        					d3.select("#neighbourhoodName")
+        						.text(d.properties.name);
 
+	        				d3.selectAll(".neighbourhood")
+	        					.classed("hover", false);
+	        				d3.select(this)
+	        					.classed("hover", true);
+        				}
         			});
 		d3.select("#map svg")
 			.append("g")
@@ -125,6 +114,11 @@ var MapChart = (function(DataService) {
 		data = data.filter(function(d, i) {
 			return DataService.enabledCategories[d.service_name];
 		});
+		
+		if(typeof selectedNeighbourhood !== "undefined") {
+        	updateBarChartFunction(DataService.getNeighbourhoodData(selectedNeighbourhood));
+        }
+		
 
 		// JOIN new data with old elements
 		var point = d3.select("#map g.points")
@@ -215,7 +209,7 @@ var MapChart = (function(DataService) {
 	  				.moveToFront();
 	  			mapTooltip.select(".serviceName").html(d.data.service_name);
 	  			mapTooltip.select(".serviceCode").html(d.data.service_code);
-				mapTooltip.select(".address").html(d.data.address);
+				d3.select("#address").html(d.data.address);
 				mapTooltip.select(".status").html(d.data.status);
 				mapTooltip.select(".statusNotes").html(d.data.status_notes);
 				mapTooltip.select(".requestedTime").html(d.data.requested_datetime);
@@ -225,13 +219,16 @@ var MapChart = (function(DataService) {
 					.style("border-color", DataService.colorMap[d.data.service_name])
 					.style("background-color", d3.hsl(DataService.colorMap[d.data.service_name]).brighter(1.3));
 				mapTooltip.classed("show", true);
+				d3.select(".mapContainer .textBox").classed("show", true);
+				d3.select("#barChart").classed("show", true);
 
 			})
 			.on("mouseleave", function(d, i) {
 				d3.select("#service_request_id_" + d.data.service_request_id)
 	  				.classed("pulse", false);
-	  			mapTooltip2.classed("show", false);
 				mapTooltip.classed("show", false);
+				d3.select(".mapContainer .textBox").classed("show", false);
+				d3.select("#barChart").classed("show", false);
 			})
 			.passThruEvents();
 	}

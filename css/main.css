@@ -45,11 +45,34 @@ h1 {
     font-size: 14px;
     text-align: center; }
 
-#map {
+.mapContainer {
   position: relative;
-  margin: 0 auto;
-  height: 430px;
+  height: 490px;
   width: 650px; }
+  .mapContainer .textBox {
+    position: absolute;
+    top: 10px;
+    left: 30px;
+    transition: opacity 0.5s;
+    opacity: 0;
+    font-size: 10pt; }
+    .mapContainer .textBox.show {
+      opacity: 1; }
+    .mapContainer .textBox .title {
+      float: left;
+      font-weight: bold; }
+    .mapContainer .textBox #address {
+      float: left;
+      width: 400px;
+      height: 40px; }
+    .mapContainer .textBox #neighbourhoodName {
+      float: left;
+      width: 200px; }
+  .mapContainer #map {
+    position: relative;
+    margin: 0 auto;
+    height: 430px;
+    width: 650px; }
 @keyframes point-pulse {
   0% {
     transform: scale(0.5);
@@ -61,16 +84,16 @@ h1 {
   100% {
     transform: scale(5);
     opacity: 0; } }
-  #map .polygons {
-    fill: none; }
-    #map .polygons path {
+    .mapContainer #map .polygons {
+      fill: none; }
+      .mapContainer #map .polygons path {
+        pointer-events: all; }
+    .mapContainer #map .neighbourhood {
+      fill: #ccc;
+      stroke: #000;
+      stroke-width: 0.5px;
+      stroke-linejoin: round;
       pointer-events: all; }
-  #map .neighbourhood {
-    fill: #ccc;
-    stroke: #000;
-    stroke-width: 0.5px;
-    stroke-linejoin: round;
-    pointer-events: all; }
 @keyframes neighbourhood-pulse {
   0% {
     opacity: 1; }
@@ -80,25 +103,35 @@ h1 {
     opacity: 0.4; }
   100% {
     opacity: 1; } }
-    #map .neighbourhood.hover {
-      animation-name: neighbourhood-pulse;
-      animation-duration: 2s;
-      animation-iteration-count: infinite; }
-  #map .map-circle {
-    stroke: white;
-    stroke-width: 0.5; }
-    #map .map-circle.pulse {
-      stroke-width: 0 !important; }
-      #map .map-circle.pulse .first-circle, #map .map-circle.pulse .second-circle, #map .map-circle.pulse .third-circle {
-        transform: scale(0.5);
-        transform-origin: center center;
-        animation: point-pulse 1s linear infinite; }
-      #map .map-circle.pulse .second-circle {
-        animation-delay: 0.33s; }
-      #map .map-circle.pulse .third-circle {
-        animation-delay: 0.33s; }
+      .mapContainer #map .neighbourhood.hover {
+        animation-name: neighbourhood-pulse;
+        animation-duration: 2s;
+        animation-iteration-count: infinite; }
+    .mapContainer #map .map-circle {
+      stroke: white;
+      stroke-width: 0.5; }
+      .mapContainer #map .map-circle.pulse {
+        stroke-width: 0 !important; }
+        .mapContainer #map .map-circle.pulse .first-circle, .mapContainer #map .map-circle.pulse .second-circle, .mapContainer #map .map-circle.pulse .third-circle {
+          transform: scale(0.5);
+          transform-origin: center center;
+          animation: point-pulse 1s linear infinite; }
+        .mapContainer #map .map-circle.pulse .second-circle {
+          animation-delay: 0.33s; }
+        .mapContainer #map .map-circle.pulse .third-circle {
+          animation-delay: 0.33s; }
+  .mapContainer #barChart {
+    position: absolute;
+    top: 285px;
+    left: 365px;
+    transition: opacity 0.5s;
+    opacity: 0; }
+    .mapContainer #barChart.show {
+      opacity: 1; }
+    .mapContainer #barChart .axis-x path {
+      display: none; }
 
-#mapTooltip, #mapTooltip2 {
+#mapTooltip {
   float: left;
   opacity: 0;
   transition: opacity 0.5s;
@@ -108,11 +141,11 @@ h1 {
   padding: 10px;
   fill: #fff;
   border-color: #fff; }
-  #mapTooltip.show, #mapTooltip2.show {
+  #mapTooltip.show {
     opacity: 1; }
-  #mapTooltip div, #mapTooltip2 div {
+  #mapTooltip div {
     margin: 10px; }
-  #mapTooltip .title, #mapTooltip2 .title {
+  #mapTooltip .title {
     font-weight: bold; }
 
 /*# sourceMappingURL=main.css.map */
