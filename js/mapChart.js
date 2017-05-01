@@ -53,14 +53,18 @@ var MapChart = (function(DataService) {
 			.extent([[0, 0], [mapWidth, mapHeight]]),
 		color = d3.scaleOrdinal(['#b3e2cd','#fdcdac','#cbd5e8','#f4cae4','#e6f5c9','#fff2ae','#f1e2cc','#cccccc']),
 		selectedNeighbourhood,
-		updateBarChartFunction;
+		updateBarChartFunction,
+		updateTimeBarChartFunction,
+		update2TimeBarChartFunction;
 
-	function create(selector, updateBarChart) {
+	function create(selector, updateBarChart, updateTimeBarChart, update2TimeBarChart) {
 		var city = DataService.getTorontoTopoJson(),
 		 	neighbourhoods = topojson.feature(city, city.objects.toronto).features,
   			neighbors = topojson.neighbors(city.objects.toronto.geometries);
 
   		updateBarChartFunction = updateBarChart;
+  		updateTimeBarChartFunction = updateTimeBarChart;
+  		update2TimeBarChartFunction = update2TimeBarChart;
 		d3.select(selector)
 			.append("svg")
 			.attr("width", mapWidth)
@@ -87,7 +91,7 @@ var MapChart = (function(DataService) {
         				}
         				if(d.properties.id !== selectedNeighbourhood.properties.id) {
         					selectedNeighbourhood = d;
-        					updateBarChart(DataService.getNeighbourhoodData(selectedNeighbourhood));
+        					updateBarChartFunction(DataService.getNeighbourhoodData(selectedNeighbourhood));
         					d3.select("#neighbourhoodName")
         						.text(d.properties.name);
 
@@ -95,6 +99,8 @@ var MapChart = (function(DataService) {
 	        					.classed("hover", false);
 	        				d3.select(this)
 	        					.classed("hover", true);
+
+							updateTimeBarChartFunction(DataService.getNeighbourhoodExpectedTimes(selectedNeighbourhood));
         				}
         			});
 		d3.select("#map svg")
@@ -221,7 +227,8 @@ var MapChart = (function(DataService) {
 				mapTooltip.classed("show", true);
 				d3.select(".mapContainer .textBox").classed("show", true);
 				d3.select("#barChart").classed("show", true);
-
+				var elapsedTime = (new Date(d.data.expected_datetime) - new Date(d.data.requested_datetime)) / 1000 / 60 / 60 /24;
+				update2TimeBarChartFunction(d.data.service_name, elapsedTime);
 			})
 			.on("mouseleave", function(d, i) {
 				d3.select("#service_request_id_" + d.data.service_request_id)

@@ -1,8 +1,9 @@
-var DataService = (function() {
-	"use strict";
+	var DataService = (function() {
+		"use strict";
 
 	var inputData,
 		pieData,
+		expectedTimes,
 		torontoTopoJson,
 		enabledCategories = {
 			"Road - Pot hole" : true,
@@ -44,11 +45,70 @@ var DataService = (function() {
 
 		return data;
 	}
+	
+
+	function parseExpectedTimes(serviceRequestData) {
+		var returnData = {},
+			data;
+
+		data = d3.nest()
+			.key(function(d) { 
+				return d.service_name;
+			})
+			.rollup(function(d) {
+				return d3.mean(d, function(g) {
+					return (new Date(g.expected_datetime) - new Date(g.requested_datetime)) / 1000 / 60 / 60 /24;	
+				});
+			})
+			.entries(serviceRequestData.filter(function(d) {
+				return d.requested_datetime !== null && d.expected_datetime !== null;
+			}));
+		data.forEach(function(d, i) {
+			returnData[d.key] = {"avg" : Math.round(d.value)};
+		});
+
+		data = d3.nest()
+			.key(function(d) { 
+				return d.service_name;
+			})
+			.rollup(function(d) {
+				return d3.min(d, function(g) {
+					return (new Date(g.expected_datetime) - new Date(g.requested_datetime)) / 1000 / 60 / 60 /24;	
+				});
+			})
+			.entries(serviceRequestData.filter(function(d) {
+				return d.requested_datetime !== null && d.expected_datetime !== null;
+			}));
+
+		data.forEach(function(d, i) {
+			returnData[d.key].min = Math.round(d.value);
+		});
+
+		data = d3.nest()
+			.key(function(d) { 
+				return d.service_name;
+			})
+			.rollup(function(d) {
+				return d3.max(d, function(g) {
+					return (new Date(g.expected_datetime) - new Date(g.requested_datetime)) / 1000 / 60 / 60 /24;	
+				});
+			})
+			.entries(serviceRequestData.filter(function(d) {
+				return d.requested_datetime !== null && d.expected_datetime !== null;
+			}));
+
+		data.forEach(function(d, i) {
+			returnData[d.key].max = Math.round(d.value);
+		});
+
+		return returnData;
+	}
 
 	function loadData(callback) {
 		d3.json("data/data.json", function(error, input) {
 			inputData = input;
 			pieData = processDataForPieChart(inputData.service_requests);
+			expectedTimes = parseExpectedTimes(inputData.service_requests);
 			d3.json("data/toronto_topo.json", function(error, toronto) {
 			 	torontoTopoJson = toronto;
 				callback();
@@ -84,6 +144,71 @@ var DataService = (function() {
 			.entries(neighbourhoodData);
 	}
 
+	function getNeighbourhoodExpectedTimes(neighbourhood) {
+		var neighbourhoodData = inputData.service_requests.filter(function(d, i) {
+     			return d3.polygonContains(neighbourhood.geometry.coordinates[0], [d.long, d.lat]);
+			}),
+			returnData = {},
+			data;
+
+		data = d3.nest()
+			.key(function(d) { 
+				return d.service_name;
+			})
+			.rollup(function(d) {
+				return d3.mean(d, function(g) {
+					return (new Date(g.expected_datetime) - new Date(g.requested_datetime)) / 1000 / 60 / 60 /24;	
+				});
+			})
+			.entries(neighbourhoodData.filter(function(d) {
+				return d.requested_datetime !== null && d.expected_datetime !== null;
+			}));
+		data.forEach(function(d, i) {
+			returnData[d.key] = {"avg" : Math.round(d.value)};
+		});
+
+		data = d3.nest()
+			.key(function(d) { 
+				return d.service_name;
+			})
+			.rollup(function(d) {
+				return d3.min(d, function(g) {
+					return (new Date(g.expected_datetime) - new Date(g.requested_datetime)) / 1000 / 60 / 60 /24;	
+				});
+			})
+			.entries(neighbourhoodData.filter(function(d) {
+				return d.requested_datetime !== null && d.expected_datetime !== null;
+			}));
+
+		data.forEach(function(d, i) {
+			returnData[d.key].min = Math.round(d.value);
+		});
+
+		data = d3.nest()
+			.key(function(d) { 
+				return d.service_name;
+			})
+			.rollup(function(d) {
+				return d3.max(d, function(g) {
+					return (new Date(g.expected_datetime) - new Date(g.requested_datetime)) / 1000 / 60 / 60 /24;	
+				});
+			})
+			.entries(neighbourhoodData.filter(function(d) {
+				return d.requested_datetime !== null && d.expected_datetime !== null;
+			}));
+
+		data.forEach(function(d, i) {
+			returnData[d.key].max = Math.round(d.value);
+		});
+
+		return returnData;
+		
+	}
+
+	function getExpectedTimes() {
+		return expectedTimes;
+	}
+
 	return {
 		enabledCategories : enabledCategories,
 		colorMap : colorMap,
@@ -91,6 +216,8 @@ var DataService = (function() {
 		getPieData : getPieData,
 		getTorontoTopoJson : getTorontoTopoJson,
 		getInputData : getInputData,
-		getNeighbourhoodData : getNeighbourhoodData
+		getNeighbourhoodData : getNeighbourhoodData,
+		getExpectedTimes : getExpectedTimes,
+		getNeighbourhoodExpectedTimes : getNeighbourhoodExpectedTimes
 	};
 })();
