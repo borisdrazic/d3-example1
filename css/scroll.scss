@@ -1,0 +1,84 @@
+body, html {
+	height: 100%;
+	margin: 0;
+}
+
+.bgimg-1, .bgimg-2, .bgimg-3 {
+	position: relative;
+  	opacity: 0.65;
+  	background-attachment: fixed;
+  	background-position: center;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+}
+
+.bgimg-1 {
+	background-image: url("../img/background1.jpg");
+	min-height: 100%;
+}
+
+.bgimg-2 {
+	background-image: url("../img/background2.jpg");
+	min-height: 500px;
+}
+
+.bgimg-3 {
+	background-image: url("../img/background3.jpg");
+	min-height: 400px;
+}
+
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1024px) {
+    .bgimg-1, .bgimg-2, .bgimg-3 {
+        background-attachment: scroll;
+    }
+}
+
+.top {
+    top: 300px;
+    padding-left: 70px; 
+	padding-top: 20px;
+	padding-bottom: 20px;
+	
+	color: white; 
+	font-size: 40px;
+
+	&.affix-top {
+		position: absolute;
+	}
+}
+
+.affix {
+	top: 0;
+	width: 100%;
+	z-index: 10;
+
+	font-size: 20px; 
+	background-color: #316786;
+}
+
+.mainTitle {
+	font-size: 50px;
+}
+
+.affix .mainTitle {
+	font-size: 30px;	
+}
+
+.stripe {
+	
+	text-align:center; 
+	padding:50px 80px; 
+	text-align: justify;
+}
+
+.stripe1 {
+	color: #777; 
+	background-color:white; 
+}
+
+.stripe2 {
+	color:#ddd;
+	background-color:#282E34;
+}

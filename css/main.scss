@@ -1,5 +1,11 @@
+@import "scroll";
+
 body {
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+text {
+	cursor: default;
 }
 
 h1 {
@@ -8,10 +14,13 @@ h1 {
 }
 
 #chart {
-	position: relative;
-  	margin: 0 auto;                    
-  	height: 500px;
-  	width: 500px;
+	position: absolute;
+	z-index: 1;
+  	width: 100%;
+    text-align: center;
+  	padding-top: 50px;
+
+  	
 
 	.pie, .pie2 {
 		text {
@@ -39,6 +48,7 @@ h1 {
 		rect {
 			stroke-width: 2;
 			transition: fill 1s;
+			cursor: pointer;
 		}
 
 		rect.disabled {
@@ -48,7 +58,8 @@ h1 {
 		text {
 			font-size: 14px;
 			text-anchor: start;
-			alignment-baseline: hanging;	
+			alignment-baseline: hanging;
+			fill: #FFFFFF;
 		}
 	}
 
@@ -69,7 +80,8 @@ h1 {
 .mapContainer {
 	position: relative;
 	height: 490px;
-    width: 650px;
+    width: 1040px;
+    margin: 0 auto;
 
     .textBox {
     	position: absolute;
@@ -126,7 +138,7 @@ h1 {
 			}
 		}
 
-	  	position: relative;
+	  	position: absolute;
 	  	margin: 0 auto;                    
 	  	height: 430px;
 	  	width: 650px;
@@ -204,6 +216,12 @@ h1 {
 		.axis-x path {
 	  		display: none;
 		}	
+	}
+
+	#timeBarChart {
+		position: absolute;
+    	top: 100px;
+    	left: 700px;
 	}
 }
 

@@ -2,57 +2,103 @@
 <meta charset="utf-8">
 <html>
 <head>
-	<title>Page Title</title>
+	<title>Toronto 311</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<script src="https://d3js.org/d3.v4.min.js"></script>
-	<script src="http://d3js.org/topojson.v1.min.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-	<h1>Toronto 311 Mobile Applications Service Requests</h1>
+
+
+	<div class="bgimg-1">
+	</div>
+
+	<div class="top" data-spy="affix" data-offset-top="297" >
+		<span>
+	  		<span class="mainTitle">Toronto 311 </span>
+	  		<span style="padding-bottom: 5px">Mobile Applications Service Requests</span>
+	  	</span>
+	</div>
+	
+	<div class="stripe stripe1">
+		<p>Nascetur per nec posuere turpis, lectus nec libero turpis nunc at, sed posuere mollis ullamcorper libero ante lectus, blandit pellentesque a, magna turpis est sapien duis blandit dignissim. Viverra interdum mi magna mi, morbi sociis. Condimentum dui ipsum consequat morbi, curabitur aliquam pede, nullam vitae eu placerat eget et vehicula. Varius quisque non molestie dolor, nunc nisl dapibus vestibulum at, sodales tincidunt mauris ullamcorper, dapibus pulvinar, in in neque risus odio. Accumsan fringilla vulputate at quibusdam sociis eleifend, aenean maecenas vulputate, non id vehicula lorem mattis, ratione interdum sociis ornare. Suscipit proin magna cras vel, non sit platea sit, maecenas ante augue etiam maecenas, porta porttitor placerat leo.</p>
+	</div>
+
 	<div id="chart">
 		<div class="tooltip">
 		</div>
 	</div>
-	<div id="timeBarChart">
+	<div class="bgimg-2"> 
 	</div>
-	<div class="mapContainer">
-		<div class="textBox">
-			<span class="title">Address:&nbsp;</span>
-			<div id="address"></div>
-			<br/>
-			<span class="title">Neighbourhood:&nbsp;</span>
-			<div id="neighbourhoodName">
+
+	
+	<div class="stripe stripe2">
+		<div class="mapContainer">
+			<div class="textBox">
+				<span class="title">Address:&nbsp;</span>
+				<div id="address"></div>
+				<br/>
+				<span class="title">Neighbourhood:&nbsp;</span>
+				<div id="neighbourhoodName">
+				</div>
 			</div>
-		</div>
-		<div id="map">
-		</div>
-		<div id="barChart">
+			<div id="map">
+			</div>
+			<div id="barChart">
+			</div>
+			<div id="timeBarChart">
+			</div>
 		</div>
 	</div>
-	<div>
-		<div id="mapTooltip">
-			<div>
-				<span class="title">Service name: </span> <span class="serviceName"></span>
-			</div>
-			<div>
-				<span class="title">Service code: </span> <span class="serviceCode">
-			</div>
-			<div>
-				<span class="title">Status: </span> <span class="status"></span>
-			</div>
-			<div>
-				<span class="title">Status notes: </span> <span class="statusNotes"></span>
-			</div>
-			<div>
-				<span class="title">Requested time: </span> <span class="requestedTime"></span>
-			</div>
-			<div>
-				<span class="title">Expected time: </span> <span class="expectedTime"></span>
+	
+	<div class="bgimg-3">
+		<div>
+			<div id="mapTooltip">
+				<div>
+					<span class="title">Service name: </span> <span class="serviceName"></span>
+				</div>
+				<div>
+					<span class="title">Service code: </span> <span class="serviceCode">
+				</div>
+				<div>
+					<span class="title">Status: </span> <span class="status"></span>
+				</div>
+				<div>
+					<span class="title">Status notes: </span> <span class="statusNotes"></span>
+				</div>
+				<div>
+					<span class="title">Requested time: </span> <span class="requestedTime"></span>
+				</div>
+				<div>
+					<span class="title">Expected time: </span> <span class="expectedTime"></span>
+				</div>
 			</div>
 		</div>
 	</div>
 
+	<div class="stripe stripe1">
+		<p>Nascetur per nec posuere turpis, lectus nec libero turpis nunc at, sed posuere mollis ullamcorper libero ante lectus, blandit pellentesque a, magna turpis est sapien duis blandit dignissim. Viverra interdum mi magna mi, morbi sociis. Condimentum dui ipsum consequat morbi, curabitur aliquam pede, nullam vitae eu placerat eget et vehicula. Varius quisque non molestie dolor, nunc nisl dapibus vestibulum at, sodales tincidunt mauris ullamcorper, dapibus pulvinar, in in neque risus odio. Accumsan fringilla vulputate at quibusdam sociis eleifend, aenean maecenas vulputate, non id vehicula lorem mattis, ratione interdum sociis ornare. Suscipit proin magna cras vel, non sit platea sit, maecenas ante augue etiam maecenas, porta porttitor placerat leo.</p>
+	</div>
+
+	<div class="bgimg-1">
+	</div>
+
+
+
+
+
+
+
+
+	
+	
+	
+
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="http://d3js.org/topojson.v1.min.js"></script>
 	<script type="text/javascript" src="js/dataService.js"></script>
 	<script type="text/javascript" src="js/timeBarChart.js"></script>
 	<script type="text/javascript" src="js/mapChart.js"></script>

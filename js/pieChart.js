@@ -2,14 +2,14 @@ var PieChart = (function(DataService) {
 	"use strict";
 
 	var animationDuration = 1000,
-		chartWidth = 500,
-		chartHeight = 500,
+		chartWidth = 400,
+		chartHeight = 400,
 		pieGenerator = d3.pie() // pie generator returns values for enalbed pie segments and zero for disabled
 			.value(function(d) {
 				return d.enabled ? d.value : 0;
 			}),
 		arcGenerator = d3.arc() // arc generator setup (for pie chart)
-			.innerRadius(chartWidth / 2 - 90)
+			.innerRadius(chartWidth / 2 - 70)
 			.outerRadius(chartWidth / 2 - 10)
 			.cornerRadius(1)
 			.padAngle(0.008)
