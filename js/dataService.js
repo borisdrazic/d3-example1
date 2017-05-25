@@ -1,5 +1,5 @@
-	var DataService = (function() {
-		"use strict";
+var DataService = (function() {
+	"use strict";
 
 	var inputData,
 		pieData,
@@ -18,7 +18,9 @@
 			"Bridge - Graffiti Complaint" : "#e41a1c",
 			"Sidewalk - Graffiti Complaint" : "#4daf4a",
 			"Road - Graffiti Complaint" : "#ff7f00"
-		};
+		},
+		petNames25,
+		petNames10;
 
 	function processDataForPieChart(serviceRequestData) {
 		// process data and generate key+value array on service_name count
@@ -111,7 +113,16 @@
 			expectedTimes = parseExpectedTimes(inputData.service_requests);
 			d3.json("data/toronto_topo.json", function(error, toronto) {
 			 	torontoTopoJson = toronto;
-				callback();
+			 	// load pet names data
+			 	d3.csv("data/petNames25.csv", function(petNames25Data) {
+			 		petNames25 = petNames25Data;
+			 		d3.csv("data/petNames10.csv", function(petNames10Data) {
+				 		petNames10 = petNames10Data;
+				 		// All data is loaded, so call the callback function.
+				 		callback();
+				 	});
+			 	});
+				
 			});
 		});
 	}
@@ -209,6 +220,29 @@
 		return expectedTimes;
 	}
 
+	/**
+	 * Returns array with top 25 pet names.
+	 * Each element has following properties:
+	 * 	category: can be anchor, cat, or dog
+	 *  name: name of pet
+	 *  number: number of registered pets with this name
+	 */
+	function getPetNames25Data() {
+		return petNames25;
+	}
+
+	/**
+	 * Returns array with top 10 pet names over years.
+	 * Each element has following properties:
+	 * 	category: can be anchor, cat, or dog
+	 *  name: name of pet
+	 *  number: number of registered pets with this name
+	 * 	year: year of registration
+	 */
+	function getPetNames10Data() {
+		return petNames10;
+	}
+
 	return {
 		enabledCategories : enabledCategories,
 		colorMap : colorMap,
@@ -218,6 +252,8 @@
 		getInputData : getInputData,
 		getNeighbourhoodData : getNeighbourhoodData,
 		getExpectedTimes : getExpectedTimes,
-		getNeighbourhoodExpectedTimes : getNeighbourhoodExpectedTimes
+		getNeighbourhoodExpectedTimes : getNeighbourhoodExpectedTimes,
+		getPetNames25Data : getPetNames25Data,
+		getPetNames10Data : getPetNames10Data
 	};
 })();

@@ -20,7 +20,7 @@ body, html {
 
 .bgimg-3 {
   background-image: url("../img/background3.jpg");
-  min-height: 400px; }
+  min-height: 640px; }
 
 /* Turn off parallax scrolling for tablets and phones */
 @media only screen and (max-device-width: 1024px) {
@@ -222,5 +222,79 @@ h1 {
     margin: 10px; }
   #mapTooltip .title {
     font-weight: bold; }
+
+#petNamesForce {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  text-align: center;
+  padding-top: 10px;
+  user-select: none; }
+  #petNamesForce h2 {
+    color: #282E34;
+    font-weight: bold; }
+  #petNamesForce circle {
+    cursor: pointer; }
+  #petNamesForce .legal {
+    color: #282E34;
+    position: absolute;
+    bottom: 17px;
+    right: 10px; }
+    #petNamesForce .legal a {
+      color: #282E34; }
+  #petNamesForce text {
+    text-anchor: middle;
+    fill: white;
+    font-size: 12px;
+    pointer-events: none; }
+  #petNamesForce g.dogIcon {
+    pointer-events: none;
+    fill: #FFFFFF;
+    fill-opacity: 0;
+    stroke-opacity: 0;
+    stroke: #000000;
+    stroke-width: 1.25973046px;
+    stroke-linecap: butt;
+    stroke-linejoin: miter; }
+  #petNamesForce g.catIcon {
+    pointer-events: none;
+    fill-opacity: 0;
+    stroke-opacity: 0;
+    fill: #FFFFFF;
+    fill-rule: evenodd;
+    stroke: none;
+    stroke-width: 1px;
+    stroke-linecap: butt;
+    stroke-linejoin: miter; }
+
+.stripe2 .legal {
+  color: #FFFFFF;
+  float: right;
+  margin-right: -70px;
+  padding-top: 30px;
+  font-size: 14px;
+  line-height: 1.42857143; }
+  .stripe2 .legal a {
+    color: #FFFFFF; }
+
+#petNamesMap {
+  width: 1400px;
+  margin: auto;
+  margin-top: -40px; }
+  #petNamesMap h2 {
+    text-align: center;
+    margin-bottom: 30px; }
+  #petNamesMap text {
+    fill: white;
+    font-size: 10px; }
+  #petNamesMap rect {
+    opacity: 1;
+    stroke: white; }
+  #petNamesMap .catLegend text, #petNamesMap .dogLegend text {
+    text-anchor: middle;
+    alignment-baseline: middle;
+    font-size: 20px; }
+  #petNamesMap g.dogIcon path, #petNamesMap g.catIcon path {
+    fill: #FFFFFF; }
 
 /*# sourceMappingURL=main.css.map */

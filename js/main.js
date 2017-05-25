@@ -1,4 +1,4 @@
-var Main = (function(DataService, PieChart, MapChart, BarChart, TimeBarChart) {
+var Main = (function(DataService, PieChart, MapChart, BarChart, TimeBarChart, ForceChart, MapLayoutChart) {
 	"use strict";
 
 	function createCharts() {
@@ -8,8 +8,10 @@ var Main = (function(DataService, PieChart, MapChart, BarChart, TimeBarChart) {
 		PieChart.update(DataService.getPieData(), DataService.getInputData(), MapChart.update);
 		MapChart.create("#map", BarChart.update, TimeBarChart.update, TimeBarChart.update2);
 		MapChart.update(DataService.getInputData().service_requests);
-	}
+		ForceChart.create("#petNamesForce svg");
+		MapLayoutChart.create("#petNamesMap svg");
+	}	
 
 	DataService.loadData(createCharts);
 
-})(DataService, PieChart, MapChart, BarChart, TimeBarChart);
+})(DataService, PieChart, MapChart, BarChart, TimeBarChart, ForceChart, MapLayoutChart);
