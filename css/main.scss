@@ -342,13 +342,47 @@ h1 {
   		stroke: white;
 	}
 
+	.catLegend, .dogLegend {
+		cursor: pointer;
+
+		rect {
+			transition: opacity 0.5s;
+			
+			&:hover {
+				opacity: 0.65;
+			}
+		}
+	}
+
 	.catLegend text, .dogLegend text {
 		text-anchor: middle;
 		alignment-baseline: middle;
 		font-size: 20px;
+		pointer-events: none;
+		cursor: pointer;
 	}
 
-	g.dogIcon path, g.catIcon path {
+	g.catIcon path {
+		transition: fill 0.5s;
 		fill: #FFFFFF;
+		&:hover {
+			fill: #316786;
+		}
+	}
+
+	g.dogIcon path {
+		transition: fill 0.5s;
+		fill: #FFFFFF;
+		&:hover {
+			fill: #403186;
+		}
+	}
+
+	g.map {
+		cursor: pointer;
+
+		text {
+			cursor: pointer;
+		}
 	}
 }

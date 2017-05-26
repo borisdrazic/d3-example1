@@ -290,11 +290,31 @@ h1 {
   #petNamesMap rect {
     opacity: 1;
     stroke: white; }
+  #petNamesMap .catLegend, #petNamesMap .dogLegend {
+    cursor: pointer; }
+    #petNamesMap .catLegend rect, #petNamesMap .dogLegend rect {
+      transition: opacity 0.5s; }
+      #petNamesMap .catLegend rect:hover, #petNamesMap .dogLegend rect:hover {
+        opacity: 0.65; }
   #petNamesMap .catLegend text, #petNamesMap .dogLegend text {
     text-anchor: middle;
     alignment-baseline: middle;
-    font-size: 20px; }
-  #petNamesMap g.dogIcon path, #petNamesMap g.catIcon path {
+    font-size: 20px;
+    pointer-events: none;
+    cursor: pointer; }
+  #petNamesMap g.catIcon path {
+    transition: fill 0.5s;
     fill: #FFFFFF; }
+    #petNamesMap g.catIcon path:hover {
+      fill: #316786; }
+  #petNamesMap g.dogIcon path {
+    transition: fill 0.5s;
+    fill: #FFFFFF; }
+    #petNamesMap g.dogIcon path:hover {
+      fill: #403186; }
+  #petNamesMap g.map {
+    cursor: pointer; }
+    #petNamesMap g.map text {
+      cursor: pointer; }
 
 /*# sourceMappingURL=main.css.map */
