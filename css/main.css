@@ -317,4 +317,42 @@ h1 {
     #petNamesMap g.map text {
       cursor: pointer; }
 
+#waterHive {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  text-align: center;
+  padding-top: 10px; }
+  #waterHive h2 {
+    color: #282E34;
+    font-weight: bold; }
+  #waterHive text {
+    fill: #282E34;
+    font-weight: bold;
+    pointer-events: none; }
+  #waterHive .axis .fill {
+    stroke-width: 2px; }
+  #waterHive g.links.small path {
+    stroke: #aaa;
+    stroke-width: 1.5px; }
+  #waterHive .legend .legendRect {
+    stroke-width: 2;
+    transition: fill 1s;
+    cursor: pointer; }
+    #waterHive .legend .legendRect.disabled {
+      fill: transparent !important; }
+  #waterHive .legend .legendBorder {
+    stroke-dasharray: 227;
+    stroke-dashoffset: 227;
+    transition: stroke-dashoffset 1s linear; }
+    #waterHive .legend .legendBorder:hover {
+      stroke-dashoffset: 0; }
+  #waterHive .legal {
+    color: #282E34;
+    position: absolute;
+    bottom: 17px;
+    right: 10px; }
+    #waterHive .legal a {
+      color: #282E34; }
+
 /*# sourceMappingURL=main.css.map */

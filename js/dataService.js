@@ -20,7 +20,8 @@ var DataService = (function() {
 			"Road - Graffiti Complaint" : "#ff7f00"
 		},
 		petNames25,
-		petNames10;
+		petNames10,
+		waterConsumption;
 
 	function processDataForPieChart(serviceRequestData) {
 		// process data and generate key+value array on service_name count
@@ -118,8 +119,11 @@ var DataService = (function() {
 			 		petNames25 = petNames25Data;
 			 		d3.csv("data/petNames10.csv", function(petNames10Data) {
 				 		petNames10 = petNames10Data;
-				 		// All data is loaded, so call the callback function.
-				 		callback();
+				 		d3.csv("data/waterConsumption.csv", function(waterConsumptionArray) {
+				 			waterConsumption = waterConsumptionArray;
+				 			// All data is loaded, so call the callback function.
+				 			callback();
+				 		});
 				 	});
 			 	});
 				
@@ -243,6 +247,13 @@ var DataService = (function() {
 		return petNames10;
 	}
 
+	/**
+	 * Returns array with water consumption by year and ward.
+	 */
+	function getWaterConsumptionData() {
+		return waterConsumption;
+	}
+
 	return {
 		enabledCategories : enabledCategories,
 		colorMap : colorMap,
@@ -254,6 +265,7 @@ var DataService = (function() {
 		getExpectedTimes : getExpectedTimes,
 		getNeighbourhoodExpectedTimes : getNeighbourhoodExpectedTimes,
 		getPetNames25Data : getPetNames25Data,
-		getPetNames10Data : getPetNames10Data
+		getPetNames10Data : getPetNames10Data,
+		getWaterConsumptionData : getWaterConsumptionData
 	};
 })();

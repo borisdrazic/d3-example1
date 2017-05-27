@@ -1,4 +1,4 @@
-var Main = (function(DataService, PieChart, MapChart, BarChart, TimeBarChart, ForceChart, MapLayoutChart) {
+var Main = (function(DataService, PieChart, MapChart, BarChart, TimeBarChart, ForceChart, MapLayoutChart, HiveChart) {
 	"use strict";
 
 	function createCharts() {
@@ -10,8 +10,9 @@ var Main = (function(DataService, PieChart, MapChart, BarChart, TimeBarChart, Fo
 		MapChart.update(DataService.getInputData().service_requests);
 		ForceChart.create("#petNamesForce svg");
 		MapLayoutChart.create("#petNamesMap svg");
+		HiveChart.create("#waterHiveChart");
 	}	
 
 	DataService.loadData(createCharts);
 
-})(DataService, PieChart, MapChart, BarChart, TimeBarChart, ForceChart, MapLayoutChart);
+})(DataService, PieChart, MapChart, BarChart, TimeBarChart, ForceChart, MapLayoutChart, HiveChart);

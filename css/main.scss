@@ -386,3 +386,64 @@ h1 {
 		}
 	}
 }
+
+#waterHive {
+	position: absolute;
+	z-index: 1;
+  	width: 100%;
+    text-align: center;
+    padding-top: 10px;
+
+    h2 {
+    	color: #282E34;
+    	font-weight: bold;
+    }
+
+    text {
+  		fill: #282E34;
+  		font-weight: bold;
+  		pointer-events: none;
+	}
+
+	.axis .fill {
+		stroke-width: 2px;
+	}
+
+	g.links.small path {
+		stroke: #aaa;
+		stroke-width: 1.5px;
+	}
+
+	.legend {
+		.legendRect {
+			stroke-width: 2;
+			transition: fill 1s;
+			cursor: pointer;
+
+			&.disabled {
+				fill: transparent !important;
+			}
+		}
+		
+		.legendBorder {
+	 		stroke-dasharray: 227;
+	  		stroke-dashoffset: 227;
+	  		transition: stroke-dashoffset 1s linear;
+
+	  		&:hover {
+	  			stroke-dashoffset: 0;
+	  		}
+		}
+	}
+
+    .legal {
+    	color: #282E34;
+    	position: absolute;
+    	bottom: 17px;
+    	right: 10px;
+
+    	a {
+    		color: #282E34;
+    	}
+    }
+}
